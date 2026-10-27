@@ -21,10 +21,9 @@
   gap: 0.55rem;
   padding: 1.6rem;
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(500px 300px at 50% 0%, color-mix(in srgb, var(--tone) 28%, transparent), transparent 70%),
-    var(--surface);
-  border: 1px solid color-mix(in srgb, var(--tone) 45%, transparent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 6px solid var(--tone);
   animation: pop-in 0.5s var(--ease-spring) both;
 }
 
@@ -51,8 +50,7 @@
   height: 96px;
   border-radius: 28px;
   color: var(--tone);
-  background: color-mix(in srgb, var(--tone) 16%, transparent);
-  box-shadow: 0 0 50px color-mix(in srgb, var(--tone) 40%, transparent);
+  background: color-mix(in srgb, var(--tone) 16%, var(--surface));
   animation: count-start 0.7s var(--ease-spring) 0.15s both;
 }
 
@@ -60,7 +58,6 @@
   font-size: clamp(2rem, 4vw, 3.3rem);
   font-weight: 800;
   color: var(--tone);
-  text-shadow: 0 0 40px color-mix(in srgb, var(--tone) 50%, transparent);
 }
 
 .results-message {
@@ -90,10 +87,7 @@
   font-size: clamp(3.6rem, 8vw, 5.5rem);
   font-weight: 800;
   line-height: 1;
-  background: var(--grad-brand);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--text);
   animation: count-start 0.7s var(--ease-spring) 0.3s both;
 }
 
@@ -158,8 +152,8 @@
   gap: 0.4rem 1rem;
   padding: 0.7rem 1rem;
   border-radius: var(--radius);
-  background: rgba(6, 9, 20, 0.45);
-  border: 1px dashed var(--border-strong);
+  background: var(--sunken);
+  border: 1px solid var(--border);
   font-weight: 600;
   font-size: 0.95rem;
 }

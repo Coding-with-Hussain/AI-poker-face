@@ -69,7 +69,7 @@ export function CameraPreview({ showOverlay, showStatus = true, className = '', 
       {showStatus && cameraReady && (
         <div className="camera-chips">
           {tracking ? (
-            <span className="chip chip-cyan chip-live" title={`Inference delegate: ${status.modelInfo?.delegate ?? 'CPU'}`}>
+            <span className="chip chip-cyan" title={`Inference delegate: ${status.modelInfo?.delegate ?? 'CPU'}`}>
               <Cpu size={14} /> {status.modelInfo?.delegate ?? 'CPU'} AI ACTIVE
             </span>
           ) : (

@@ -161,7 +161,6 @@ export default function App() {
 
   return (
     <div className={`app screen-${screen}`}>
-      <div className="app-backdrop" aria-hidden="true" />
 
       {screen === 'home' && (
         <HomePage

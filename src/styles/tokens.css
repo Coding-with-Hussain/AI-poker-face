@@ -2,33 +2,34 @@
    Fonts are local system fonts only (Bahnschrift / Segoe UI ship with Windows). */
 
 :root {
-  --bg-0: #060914;
-  --bg-1: #0a0f24;
-  --bg-2: #10173a;
-  --surface: rgba(20, 27, 64, 0.72);
-  --surface-solid: #141b40;
-  --surface-2: rgba(30, 39, 88, 0.7);
-  --surface-hover: rgba(42, 53, 112, 0.75);
-  --border: rgba(150, 165, 255, 0.16);
-  --border-strong: rgba(170, 182, 255, 0.32);
+  /* Flat, solid palette: no gradients, glows or translucency. */
+  --bg-0: #0b0f1c; /* page */
+  --bg-1: #10162a; /* header, overlays on video */
+  --sunken: #0d1222; /* inputs, tracks, inner panels */
+  --surface: #161d33; /* cards */
+  --surface-2: #1f2742; /* raised controls */
+  --surface-hover: #283255;
+  --border: #252e4b;
+  --border-strong: #354069;
 
-  --violet: #8b5cf6;
-  --violet-2: #b18cff;
+  --primary: #7c5cff;
+  --primary-hover: #6a4bf0;
+  --primary-soft: #2a2357;
+  --violet: #7c5cff;
+  --violet-2: #a99bff;
   --cyan: #22d3ee;
-  --cyan-2: #2ee6ff;
+  --cyan-2: #22d3ee;
   --green: #34d399;
   --amber: #fbbf24;
   --orange: #ff8c42;
   --red: #ff4d6d;
   --gold: #ffd166;
 
-  --text: #e9ecff;
-  --text-dim: #a3abd6;
-  --text-faint: #6f78a8;
+  --text: #eef0fb;
+  --text-dim: #a2a9c9;
+  --text-faint: #6c7499;
 
-  --grad-brand: linear-gradient(120deg, var(--violet) 0%, #6d5cff 45%, var(--cyan) 100%);
-  --glow-violet: 0 0 0 1px rgba(177, 140, 255, 0.35), 0 10px 40px -10px rgba(139, 92, 246, 0.65);
-  --glow-cyan: 0 0 24px rgba(46, 230, 255, 0.35);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 
   --radius-sm: 10px;
   --radius: 16px;
@@ -96,7 +97,7 @@ button:disabled {
 }
 
 :focus-visible {
-  outline: 3px solid var(--cyan-2);
+  outline: 3px solid var(--violet-2);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -132,7 +133,7 @@ kbd {
   }
 }
 
-/* ---- App shell & backdrop ---- */
+/* ---- App shell ---- */
 
 .app {
   position: relative;
@@ -140,28 +141,6 @@ kbd {
   display: flex;
   flex-direction: column;
   isolation: isolate;
-}
-
-.app-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(1100px 600px at 12% -10%, rgba(139, 92, 246, 0.28), transparent 60%),
-    radial-gradient(900px 600px at 105% 110%, rgba(34, 211, 238, 0.2), transparent 60%),
-    radial-gradient(700px 500px at 80% 10%, rgba(109, 92, 255, 0.12), transparent 60%),
-    linear-gradient(180deg, var(--bg-1), var(--bg-0));
-}
-
-.app-backdrop::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(150, 165, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(150, 165, 255, 0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
 }
 
 /* The shared webcam <video> waits here (invisible) when no preview shows it. */

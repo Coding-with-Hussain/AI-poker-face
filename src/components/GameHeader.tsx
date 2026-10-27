@@ -1,4 +1,4 @@
-import { ArrowLeft, Camera, CameraOff, Cpu, Settings, Volume2, VolumeX } from 'lucide-react';
+import { ArrowLeft, Camera, CameraOff, Settings, Volume2, VolumeX } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useVisionStatus } from '../hooks/useCamera';
 import { Logo } from './Logo';
@@ -33,9 +33,6 @@ export function GameHeader({ soundEnabled, onToggleSound, onOpenSettings, onStop
       </div>
       <div className="game-header-center">{center}</div>
       <div className="game-header-right">
-        <span className="chip chip-cyan" title="All inference runs locally in this browser on the CPU (WebAssembly)">
-          <Cpu size={14} /> Local CPU AI
-        </span>
         {cameraOn ? (
           <button type="button" className="chip chip-button chip-red" onClick={onStopCamera} title="Turn the webcam off now">
             <span className="rec-dot" aria-hidden="true" />

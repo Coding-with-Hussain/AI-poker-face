@@ -1,4 +1,4 @@
-import { Camera, CameraOff, Cpu, HelpCircle, Play, Settings as SettingsIcon, ShieldCheck, Trophy, Volume2, VolumeX, WifiOff } from 'lucide-react';
+import { Camera, CameraOff, Cpu, HelpCircle, Play, Settings as SettingsIcon, ShieldCheck, Trophy, Volume2, VolumeX } from 'lucide-react';
 import { HallOfFame } from '../components/HallOfFame';
 import { Logo } from '../components/Logo';
 import { PRIVACY_STATEMENT } from '../components/PrivacyNote';
@@ -26,17 +26,7 @@ export function HomePage({ settings, stats, leaderboard, storageAvailable, onCha
 
   return (
     <div className="home-page">
-      <div className="home-decor" aria-hidden="true">
-        <span className="floating-card c1">♠</span>
-        <span className="floating-card c2">♥</span>
-        <span className="floating-card c3">♣</span>
-        <span className="floating-card c4">♦</span>
-      </div>
-
       <div className="home-topbar">
-        <span className="chip chip-cyan">
-          <Cpu size={14} /> AI runs locally on your CPU
-        </span>
         <div className="button-row">
           <button
             type="button"
@@ -72,17 +62,6 @@ export function HomePage({ settings, stats, leaderboard, storageAvailable, onCha
             <button type="button" className="secondary-button large" onClick={onHowToPlay}>
               <HelpCircle size={20} /> How to Play
             </button>
-          </div>
-          <div className="hero-badges">
-            <span className="chip chip-cyan">
-              <Cpu size={14} /> CPU-only AI · WebAssembly
-            </span>
-            <span className="chip chip-violet">
-              <ShieldCheck size={14} /> No uploads · No sign-up
-            </span>
-            <span className="chip chip-muted">
-              <WifiOff size={14} /> Plays offline
-            </span>
           </div>
         </section>
 
@@ -128,6 +107,10 @@ export function HomePage({ settings, stats, leaderboard, storageAvailable, onCha
               <span>
                 Webcam: <strong>{cameraOn ? 'on' : 'off'}</strong> · needed only while you play
               </span>
+            </div>
+            <div className="privacy-status">
+              <Cpu size={18} />
+              <span>AI runs locally on your CPU</span>
             </div>
             <p>
               <ShieldCheck size={15} /> {PRIVACY_STATEMENT}
