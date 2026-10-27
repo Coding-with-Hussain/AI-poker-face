@@ -1,0 +1,9 @@
+# Normalise text files; Windows batch files must keep CRLF line endings.
+* text=auto
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary AI assets
+*.task binary
+*.wasm binary
+*.png binary

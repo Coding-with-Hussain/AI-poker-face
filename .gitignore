@@ -1,0 +1,21 @@
+# Dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# MediaPipe WASM runtime is copied from node_modules/@mediapipe/tasks-vision
+# by scripts/setup-assets.mjs so it always matches the installed JS package.
+public/mediapipe/wasm/
+
+# Logs and editor files
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Local test artefacts
+test-results/
+playwright-report/

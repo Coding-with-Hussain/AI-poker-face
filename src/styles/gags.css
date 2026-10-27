@@ -1,0 +1,293 @@
+/* Visual gag scenes (components/VisualGag.tsx). All CSS, no assets. */
+
+.visual-gag {
+  width: min(100%, 440px);
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.visual-gag svg {
+  width: 100%;
+  height: auto;
+  max-height: 34vh;
+  display: block;
+  overflow: visible;
+}
+
+.visual-gag svg * {
+  transform-box: fill-box;
+}
+
+/* Shared micro-animations */
+.gag-blink {
+  transform-origin: center;
+  animation: gag-blink 3.2s infinite;
+}
+
+@keyframes gag-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  94% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* Professor duck */
+.gag-professor-duck .gag-bob {
+  transform-box: view-box;
+  transform-origin: 70px 140px;
+  animation: gag-bob 1.6s ease-in-out infinite;
+}
+.gag-professor-duck .gag-point {
+  transform-box: view-box;
+  transform-origin: 104px 104px;
+  animation: gag-point 0.8s ease-in-out infinite alternate;
+}
+@keyframes gag-bob {
+  50% {
+    transform: translateY(-4px) rotate(-2deg);
+  }
+}
+@keyframes gag-point {
+  to {
+    transform: rotate(-8deg);
+  }
+}
+
+/* Wobbly jelly */
+.gag-wobbly-jelly .gag-wobble {
+  transform-box: view-box;
+  transform-origin: 120px 144px;
+  animation: gag-wobble 1.1s ease-in-out infinite;
+}
+.gag-wobbly-jelly .gag-twitch {
+  transform-origin: center;
+  animation: gag-twitch 2.6s steps(1) infinite;
+}
+@keyframes gag-wobble {
+  0%,
+  100% {
+    transform: skewX(0) scaleY(1);
+  }
+  25% {
+    transform: skewX(6deg) scaleY(0.96);
+  }
+  50% {
+    transform: skewX(0) scaleY(1.04);
+  }
+  75% {
+    transform: skewX(-6deg) scaleY(0.97);
+  }
+}
+@keyframes gag-twitch {
+  0%,
+  80% {
+    transform: scaleX(1);
+  }
+  85% {
+    transform: scaleX(1.3) translateY(-2px);
+  }
+  90% {
+    transform: scaleX(0.8);
+  }
+}
+
+/* Dancing banana */
+.gag-dancing-banana .gag-dance {
+  transform-box: view-box;
+  transform-origin: 120px 140px;
+  animation: gag-dance 0.7s ease-in-out infinite alternate;
+}
+.gag-dancing-banana .gag-arm-l {
+  transform-origin: 100% 100%;
+  animation: gag-arm 0.35s ease-in-out infinite alternate;
+}
+.gag-dancing-banana .gag-arm-r {
+  transform-origin: 0% 100%;
+  animation: gag-arm 0.35s ease-in-out infinite alternate-reverse;
+}
+.gag-dancing-banana .gag-notes {
+  animation: gag-notes 1.4s ease-in-out infinite;
+}
+@keyframes gag-dance {
+  from {
+    transform: rotate(-10deg) translateY(0);
+  }
+  to {
+    transform: rotate(10deg) translateY(-8px);
+  }
+}
+@keyframes gag-arm {
+  to {
+    transform: rotate(-35deg);
+  }
+}
+@keyframes gag-notes {
+  50% {
+    transform: translateY(-10px);
+    opacity: 0.5;
+  }
+}
+
+/* Keyboard cat */
+.gag-keyboard-cat .gag-paw-l {
+  animation: gag-paw 0.22s ease-in-out infinite alternate;
+}
+.gag-keyboard-cat .gag-paw-r {
+  animation: gag-paw 0.22s ease-in-out infinite alternate-reverse;
+}
+.gag-keyboard-cat .gag-typing {
+  animation: gag-typing 3s steps(23) infinite;
+}
+@keyframes gag-paw {
+  to {
+    transform: translateY(6px);
+  }
+}
+@keyframes gag-typing {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Sad Wi-Fi */
+.gag-sad-wifi .gag-flicker {
+  animation: gag-flicker 1.8s steps(1) infinite;
+}
+.gag-sad-wifi .gag-tear {
+  animation: gag-tear 1.6s ease-in infinite;
+}
+@keyframes gag-flicker {
+  0%,
+  40% {
+    stroke: #2a3366;
+  }
+  45%,
+  55% {
+    stroke: #2ee6ff;
+  }
+  60%,
+  100% {
+    stroke: #2a3366;
+  }
+}
+@keyframes gag-tear {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(26px);
+    opacity: 0;
+  }
+}
+
+/* Sliding penguin */
+.gag-sliding-penguin .gag-slide {
+  animation: gag-slide 3.2s linear infinite;
+}
+@keyframes gag-slide {
+  from {
+    transform: translateX(-80px);
+  }
+  to {
+    transform: translateX(330px);
+  }
+}
+
+/* Toast with a tiny hat */
+.gag-toast-hat .gag-bounce {
+  transform-box: view-box;
+  transform-origin: 120px 150px;
+  animation: gag-bounce 0.9s var(--ease-spring) infinite alternate;
+}
+.gag-toast-hat .gag-hat {
+  transform-box: view-box;
+  transform-origin: 120px 32px;
+  animation: gag-hat 1.8s ease-in-out infinite;
+}
+@keyframes gag-bounce {
+  from {
+    transform: translateY(0) scaleY(0.96);
+  }
+  to {
+    transform: translateY(-14px) scaleY(1.02);
+  }
+}
+@keyframes gag-hat {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(12deg) translateY(-3px);
+  }
+}
+
+/* Egg with a moustache */
+.gag-egg-mustache .gag-stache {
+  transform-box: view-box;
+  transform-origin: 120px 104px;
+  animation: gag-stache 0.5s ease-in-out infinite alternate;
+}
+@keyframes gag-stache {
+  to {
+    transform: rotate(5deg) scaleX(1.06);
+  }
+}
+
+/* Poker blob */
+.gag-poker-blob .gag-blob {
+  transform-box: view-box;
+  transform-origin: 120px 148px;
+  animation: gag-squish 2s ease-in-out infinite;
+}
+.gag-poker-blob .gag-mouth-smile {
+  opacity: 0;
+  animation: gag-smile-flash 2.4s steps(1) infinite;
+}
+.gag-poker-blob .gag-mouth-flat {
+  animation: gag-flat-flash 2.4s steps(1) infinite;
+}
+.gag-poker-blob .gag-sweat {
+  animation: gag-tear 1.4s ease-in infinite;
+}
+@keyframes gag-squish {
+  50% {
+    transform: scale(1.04, 0.96);
+  }
+}
+@keyframes gag-smile-flash {
+  0%,
+  70% {
+    opacity: 0;
+  }
+  72%,
+  86% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes gag-flat-flash {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  72%,
+  86% {
+    opacity: 0;
+  }
+  88%,
+  100% {
+    opacity: 1;
+  }
+}
