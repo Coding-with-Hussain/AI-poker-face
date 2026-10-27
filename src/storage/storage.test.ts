@@ -6,6 +6,7 @@ import {
   EMPTY_STATS,
   insertEntry,
   LEADERBOARD_SIZE,
+  leaderboardRank,
   qualifiesForLeaderboard,
   sanitizeLeaderboard,
   sanitizeNickname,
@@ -57,6 +58,17 @@ describe('leaderboard', () => {
     expect(board).toHaveLength(LEADERBOARD_SIZE);
     expect(board[0]?.score).toBe(140);
     expect(board.at(-1)?.score).toBe(50);
+  });
+
+  it('reports the rank of a saved entry', () => {
+    let board: LeaderboardEntry[] = [];
+    const entriesByScore = [90, 130, 40].map((s) => createEntry(result(s), `P${s}`));
+    for (const entry of entriesByScore) board = insertEntry(board, entry);
+    expect(leaderboardRank(board, entriesByScore[1]?.id ?? null)).toBe(1);
+    expect(leaderboardRank(board, entriesByScore[0]?.id ?? null)).toBe(2);
+    expect(leaderboardRank(board, entriesByScore[2]?.id ?? null)).toBe(3);
+    expect(leaderboardRank(board, 'missing')).toBeNull();
+    expect(leaderboardRank(board, null)).toBeNull();
   });
 
   it('only lets qualifying scores in', () => {

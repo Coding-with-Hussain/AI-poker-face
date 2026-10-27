@@ -3,6 +3,7 @@ import { sound } from './audio/soundEngine';
 import { DiagnosticsPanel } from './components/DiagnosticsPanel';
 import { GameHeader } from './components/GameHeader';
 import { HowToPlay } from './components/HowToPlay';
+import { LeaderboardPanel } from './components/LeaderboardPanel';
 import { SettingsPanel } from './components/SettingsPanel';
 import { DIFFICULTIES, resolveDetectionTuning, SCORING } from './game/gameConfig';
 import type { RoundConfig, RoundResult } from './game/gameTypes';
@@ -30,7 +31,7 @@ import type { CalibrationResult } from './vision/calibration';
 import { visionService } from './vision/visionService';
 
 type Screen = 'home' | 'setup' | 'calibration' | 'game' | 'results';
-type ModalName = 'how-to' | 'settings' | null;
+type ModalName = 'how-to' | 'settings' | 'leaderboard' | null;
 
 interface RoundSetup {
   key: number;
@@ -47,6 +48,7 @@ export default function App() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(loadLeaderboard);
   const [storageAvailable] = useState(isStorageAvailable);
   const [nickname, setNickname] = useState('');
+  const [lastSavedId, setLastSavedId] = useState<string | null>(null);
   const [round, setRound] = useState<RoundSetup | null>(null);
   const [result, setResult] = useState<{ round: RoundResult; isNewBest: boolean } | null>(null);
 
@@ -121,11 +123,14 @@ export default function App() {
     const next = insertEntry(leaderboard, entry);
     setLeaderboard(next);
     setNickname(entry.nickname);
-    return saveLeaderboard(next) ? entry.id : null;
+    if (!saveLeaderboard(next)) return null;
+    setLastSavedId(entry.id);
+    return entry.id;
   };
 
   const handleClearScores = () => {
     setLeaderboard([]);
+    setLastSavedId(null);
     setStats({ ...EMPTY_STATS });
     saveLeaderboard([]);
     saveStats(EMPTY_STATS);
@@ -161,7 +166,6 @@ export default function App() {
 
   return (
     <div className={`app screen-${screen}`}>
-
       {screen === 'home' && (
         <HomePage
           settings={settings}
@@ -172,6 +176,7 @@ export default function App() {
           onPlay={handlePlay}
           onHowToPlay={() => setModal('how-to')}
           onOpenSettings={() => setModal('settings')}
+          onViewLeaderboard={() => setModal('leaderboard')}
         />
       )}
 
@@ -221,6 +226,7 @@ export default function App() {
             nickname={nickname}
             storageAvailable={storageAvailable}
             onSaveScore={handleSaveScore}
+            onViewLeaderboard={() => setModal('leaderboard')}
             onPlayAgain={() => go('calibration')}
             onNextPlayer={() => {
               setNickname('');
@@ -232,6 +238,14 @@ export default function App() {
       )}
 
       {modal === 'how-to' && <HowToPlay onClose={() => setModal(null)} />}
+      {modal === 'leaderboard' && (
+        <LeaderboardPanel
+          entries={leaderboard}
+          highlightId={lastSavedId}
+          storageAvailable={storageAvailable}
+          onClose={() => setModal(null)}
+        />
+      )}
       {modal === 'settings' && (
         <SettingsPanel
           settings={settings}

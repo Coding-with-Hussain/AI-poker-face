@@ -118,7 +118,7 @@ export function SettingsPanel({ settings, onChange, onClose, onClearScores, roun
               </div>
             ) : (
               <button type="button" className="ghost-button" onClick={() => setConfirmClear(true)}>
-                <Trash2 size={16} /> Clear hall of fame &amp; stats
+                <Trash2 size={16} /> Clear leaderboard &amp; stats
               </button>
             )}
           </div>

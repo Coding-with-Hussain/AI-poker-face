@@ -124,8 +124,11 @@ save it as `public/models/face_landmarker.task`, then run `npm run verify-assets
    Hiding your face pauses the timer.
 5. **Results**: final score, time survived, laugh-like events, survival, best score and a
    title (*Poker Face Legend*, *Ice-Cold Champion*, *Almost Lost It*, *Laugh Detected!*,
-   *Challenge Failed*). Save a top-10 score with a nickname, then **PLAY AGAIN**,
+   *Challenge Failed*). Save a Top 10 score with a nickname, then **PLAY AGAIN**,
    **NEXT PLAYER** (re-runs the camera check and calibration) or **HOME**.
+6. **Top 10 leaderboard**: open it with *View Top 10* from the Leaderboard card on Home or on
+   the results screen. It lists rank, player, score, difficulty, round length, laugh-like events,
+   result title and time for the ten best scores on this computer; the latest saved score is highlighted.
 
 Keyboard: `Space`/`P` pause and resume, `Esc` pause, `M` mute, `Shift`+`D` developer diagnostics.
 
@@ -268,7 +271,7 @@ before → *Challenge Failed*.
    ├─ pages/                    HomePage, CameraSetupPage, CalibrationPage, GamePage, ResultsPage
    ├─ components/               GameHeader, CameraPreview, GameHUD, CueMeter, ChallengeCard,
    │                            VisualGag, ScoreDisplay, CountdownOverlay, SettingsPanel,
-   │                            DiagnosticsPanel, HowToPlay, HallOfFame, Modal, …
+   │                            DiagnosticsPanel, HowToPlay, LeaderboardPanel, Modal, …
    ├─ vision/                   faceLandmarker (CPU setup), camera, faceTracker (inference loop),
    │                            visionService, blendshapeAnalyzer, calibration, laughEstimator,
    │                            laughMonitor, faceGeometry, overlayRenderer, visionErrors
@@ -305,7 +308,7 @@ Real-webcam checks are manual and listed in [`docs/manual-webcam-tests.md`](docs
 - **Jokes:** add entries to `src/content/challenges.ts` (unique `id`, `category`, `intensity` 1–3,
   `text`, optional `punchline` / `emoji` / `visual`). Visual gags are SVG scenes in
   `src/components/VisualGag.tsx`.
-- **Reset the hall of fame:** *Settings → Clear hall of fame & stats*.
+- **Reset the leaderboard:** *Settings → Clear leaderboard & stats*.
 
 ## 14. Known limitations
 

@@ -1,5 +1,5 @@
 import { Camera, CameraOff, Cpu, HelpCircle, Play, Settings as SettingsIcon, ShieldCheck, Trophy, Volume2, VolumeX } from 'lucide-react';
-import { HallOfFame } from '../components/HallOfFame';
+import { LeaderboardPreview } from '../components/LeaderboardPreview';
 import { Logo } from '../components/Logo';
 import { PRIVACY_STATEMENT } from '../components/PrivacyNote';
 import { Segmented, Toggle } from '../components/Segmented';
@@ -17,9 +17,11 @@ interface HomePageProps {
   onPlay: () => void;
   onHowToPlay: () => void;
   onOpenSettings: () => void;
+  onViewLeaderboard: () => void;
 }
 
-export function HomePage({ settings, stats, leaderboard, storageAvailable, onChangeSettings, onPlay, onHowToPlay, onOpenSettings }: HomePageProps) {
+export function HomePage(props: HomePageProps) {
+  const { settings, stats, leaderboard, storageAvailable, onChangeSettings, onPlay, onHowToPlay, onOpenSettings, onViewLeaderboard } = props;
   const camera = useCamera();
   const cameraOn = camera.state === 'ready' || camera.state === 'requesting';
   const preset = DIFFICULTIES[settings.difficulty];
@@ -97,7 +99,7 @@ export function HomePage({ settings, stats, leaderboard, storageAvailable, onCha
                 <span className="stat-value tabular">{stats.totalRounds}</span>
               </div>
             </div>
-            <HallOfFame entries={leaderboard} limit={3} />
+            <LeaderboardPreview entries={leaderboard} limit={3} onViewAll={onViewLeaderboard} />
             {!storageAvailable && <p className="note">Scores cannot be saved in this browser mode.</p>}
           </section>
 

@@ -44,5 +44,5 @@ run on the exhibition laptop before the event. Open the diagnostics panel with `
 - [ ] `Space` pauses (timer frozen), `Space` resumes; `M` mutes.
 - [ ] Unplugging a USB webcam mid-round pauses with *Webcam disconnected*; replug → **Restart camera** → **Resume**.
 - [ ] **Play again**, **Next player** and **Home** all work; on **Home** the webcam light turns off.
-- [ ] A qualifying score can be saved with a nickname and appears in the hall of fame after a reload.
+- [ ] A qualifying score can be saved with a nickname and appears in the Top 10 leaderboard after a reload.
 - [ ] *Camera on · Stop* in the top bar turns the webcam light off immediately.

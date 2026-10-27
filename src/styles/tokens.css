@@ -40,6 +40,12 @@
   --red-fg: #be123c;
   --red-line: #fbc4d0;
   --gold-bg: #fff4d6;
+  --medal-gold: #fde68a;
+  --medal-gold-fg: #854d0e;
+  --medal-silver: #e2e8f0;
+  --medal-silver-fg: #475569;
+  --medal-bronze: #fed7aa;
+  --medal-bronze-fg: #9a3412;
 
   --text: #161b2e;
   --text-dim: #586079;

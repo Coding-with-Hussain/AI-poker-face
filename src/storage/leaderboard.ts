@@ -1,5 +1,5 @@
 /**
- * Local hall of fame and round statistics. Only game results are stored:
+ * Local Top 10 leaderboard and round statistics. Only game results are stored:
  * no images, landmarks or expression histories.
  */
 import { DIFFICULTY_ORDER, ROUND_DURATIONS } from '../game/gameConfig';
@@ -72,6 +72,13 @@ export function sanitizeLeaderboard(value: unknown): LeaderboardEntry[] {
   if (!Array.isArray(value)) return [];
   const entries = value.map(sanitizeEntry).filter((e): e is LeaderboardEntry => e !== null);
   return sortEntries(entries).slice(0, LEADERBOARD_SIZE);
+}
+
+/** 1-based position of an entry on the board, or null when it is not on it. */
+export function leaderboardRank(entries: readonly LeaderboardEntry[], id: string | null): number | null {
+  if (!id) return null;
+  const index = sortEntries(entries).findIndex((entry) => entry.id === id);
+  return index === -1 ? null : index + 1;
 }
 
 export function qualifiesForLeaderboard(entries: readonly LeaderboardEntry[], score: number): boolean {

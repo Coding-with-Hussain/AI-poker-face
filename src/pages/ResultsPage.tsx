@@ -1,11 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, Crown, Home, Laugh, Medal, RotateCcw, Save, Snowflake, Timer, Trophy, Users, XCircle } from 'lucide-react';
 import { sound } from '../audio/soundEngine';
-import { HallOfFame } from '../components/HallOfFame';
+import { LeaderboardPreview } from '../components/LeaderboardPreview';
 import { DIFFICULTIES } from '../game/gameConfig';
 import type { OutcomeId, RoundResult } from '../game/gameTypes';
 import { OUTCOMES, outcomeMessage } from '../game/scoring';
-import { NICKNAME_MAX_LENGTH, qualifiesForLeaderboard, type LeaderboardEntry, type PlayerStats } from '../storage/leaderboard';
+import {
+  leaderboardRank,
+  NICKNAME_MAX_LENGTH,
+  qualifiesForLeaderboard,
+  type LeaderboardEntry,
+  type PlayerStats,
+} from '../storage/leaderboard';
 
 interface ResultsPageProps {
   result: RoundResult;
@@ -15,6 +21,7 @@ interface ResultsPageProps {
   nickname: string;
   storageAvailable: boolean;
   onSaveScore: (nickname: string) => string | null;
+  onViewLeaderboard: () => void;
   onPlayAgain: () => void;
   onNextPlayer: () => void;
   onHome: () => void;
@@ -63,6 +70,7 @@ export function ResultsPage(props: ResultsPageProps) {
   const [name, setName] = useState(props.nickname);
   const [savedId, setSavedId] = useState<string | null>(null);
   const canSave = storageAvailable && savedId === null && qualifiesForLeaderboard(leaderboard, result.score.finalScore);
+  const savedRank = leaderboardRank(leaderboard, savedId);
   const played = useRef(false);
 
   useEffect(() => {
@@ -140,7 +148,7 @@ export function ResultsPage(props: ResultsPageProps) {
           <div className="save-score">
             {canSave ? (
               <>
-                <label htmlFor="results-nickname">You made the Hall of Fame! Enter a nickname:</label>
+                <label htmlFor="results-nickname">You made the Top 10! Enter a nickname:</label>
                 <div className="save-row">
                   <input
                     id="results-nickname"
@@ -159,20 +167,20 @@ export function ResultsPage(props: ResultsPageProps) {
               </>
             ) : savedId ? (
               <p className="saved-note">
-                <Check size={16} /> Saved to the Hall of Fame.
+                <Check size={16} /> Saved — you are #{savedRank ?? '?'} on the Top 10 leaderboard.
               </p>
             ) : (
               <p className="muted">
                 {storageAvailable
                   ? result.score.finalScore > 0
-                    ? 'Not quite Hall of Fame material this time.'
-                    : 'Score some points to enter the Hall of Fame.'
+                    ? 'Not quite Top 10 material this time.'
+                    : 'Score some points to enter the Top 10.'
                   : 'Scores cannot be saved in this browser mode.'}
               </p>
             )}
             <p className="muted small">Only your nickname and score are saved, on this computer. No images.</p>
           </div>
-          <HallOfFame entries={leaderboard} limit={5} highlightId={savedId} />
+          <LeaderboardPreview entries={leaderboard} limit={5} highlightId={savedId} onViewAll={props.onViewLeaderboard} />
         </div>
       </section>
 

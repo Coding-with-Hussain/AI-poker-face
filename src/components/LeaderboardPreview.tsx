@@ -1,20 +1,29 @@
-import { Crown, Trophy } from 'lucide-react';
+import { ChevronRight, Crown, Trophy } from 'lucide-react';
 import { DIFFICULTIES } from '../game/gameConfig';
 import type { LeaderboardEntry } from '../storage/leaderboard';
 
-interface HallOfFameProps {
+interface LeaderboardPreviewProps {
   entries: readonly LeaderboardEntry[];
   limit?: number;
   highlightId?: string | null;
+  onViewAll?: () => void;
 }
 
-export function HallOfFame({ entries, limit = 5, highlightId = null }: HallOfFameProps) {
+/** The first few leaderboard places, with a link to the full Top 10. */
+export function LeaderboardPreview({ entries, limit = 5, highlightId = null, onViewAll }: LeaderboardPreviewProps) {
   const shown = entries.slice(0, limit);
   return (
-    <section className="hall-of-fame" aria-label="Hall of fame">
-      <h3>
-        <Trophy size={16} /> Hall of Fame
-      </h3>
+    <section className="leaderboard-preview" aria-label="Leaderboard">
+      <div className="leaderboard-preview-head">
+        <h3>
+          <Trophy size={16} /> Leaderboard
+        </h3>
+        {onViewAll && (
+          <button type="button" className="link-button" onClick={onViewAll}>
+            View Top 10 <ChevronRight size={15} />
+          </button>
+        )}
+      </div>
       {shown.length === 0 ? (
         <p className="muted">No scores yet. Be the first poker face!</p>
       ) : (
