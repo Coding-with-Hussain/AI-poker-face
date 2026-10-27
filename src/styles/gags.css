@@ -166,15 +166,15 @@
 @keyframes gag-flicker {
   0%,
   40% {
-    stroke: #2a3366;
+    stroke: #d6dbea;
   }
   45%,
   55% {
-    stroke: #2ee6ff;
+    stroke: #06b6d4;
   }
   60%,
   100% {
-    stroke: #2a3366;
+    stroke: #d6dbea;
   }
 }
 @keyframes gag-tear {

@@ -24,6 +24,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-top: 6px solid var(--tone);
+  box-shadow: var(--shadow-sm);
   animation: pop-in 0.5s var(--ease-spring) both;
 }
 
@@ -112,6 +113,7 @@
   border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 .result-stat svg {
@@ -159,10 +161,10 @@
 }
 
 .score-breakdown .minus {
-  color: #ff8fa3;
+  color: var(--red-fg);
 }
 .score-breakdown .plus {
-  color: var(--green);
+  color: var(--green-fg);
 }
 .score-breakdown .equals {
   font-family: var(--font-display);
@@ -201,7 +203,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--green);
+  color: var(--green-fg);
   font-weight: 600;
 }
 

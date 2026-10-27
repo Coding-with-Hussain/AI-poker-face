@@ -109,10 +109,10 @@ function arc(r: number): string {
 function SadWifi() {
   return (
     <>
-      <path d={arc(94)} stroke="#2a3366" strokeWidth="12" fill="none" strokeLinecap="round" />
-      <path className="gag-flicker" d={arc(64)} stroke="#2ee6ff" strokeWidth="12" fill="none" strokeLinecap="round" />
-      <path d={arc(36)} stroke="#2ee6ff" strokeWidth="12" fill="none" strokeLinecap="round" />
-      <circle cx="120" cy="128" r="20" fill="#2ee6ff" />
+      <path d={arc(94)} stroke="#d6dbea" strokeWidth="12" fill="none" strokeLinecap="round" />
+      <path className="gag-flicker" d={arc(64)} stroke="#06b6d4" strokeWidth="12" fill="none" strokeLinecap="round" />
+      <path d={arc(36)} stroke="#06b6d4" strokeWidth="12" fill="none" strokeLinecap="round" />
+      <circle cx="120" cy="128" r="20" fill="#06b6d4" />
       <circle cx="113" cy="124" r="2.6" fill={INK} />
       <circle cx="127" cy="124" r="2.6" fill={INK} />
       <path d="M113 136 q7 -6 14 0" stroke={INK} strokeWidth="2.4" fill="none" strokeLinecap="round" />
@@ -125,11 +125,11 @@ function SadWifi() {
 function SlidingPenguin() {
   return (
     <>
-      <rect x="0" y="128" width="240" height="32" fill="#bfefff" opacity="0.22" />
-      <path d="M0 128 h240" stroke="#bfefff" strokeWidth="2" opacity="0.5" />
+      <rect x="0" y="128" width="240" height="32" fill="#e3f4fb" />
+      <path d="M0 128 h240" stroke="#a9d9ea" strokeWidth="2" />
       <g transform="translate(0 112)">
         <g className="gag-slide">
-          <path d="M-64 -4 h-26 M-60 6 h-34 M-66 14 h-20" stroke="#bfefff" strokeWidth="3" strokeLinecap="round" opacity="0.6" />
+          <path d="M-64 -4 h-26 M-60 6 h-34 M-66 14 h-20" stroke="#8cc8dd" strokeWidth="3" strokeLinecap="round" />
           <ellipse cx="0" cy="0" rx="44" ry="18" fill="#1d2235" />
           <ellipse cx="0" cy="7" rx="34" ry="10" fill="#f4f7ff" />
           <circle cx="40" cy="-8" r="16" fill="#1d2235" />

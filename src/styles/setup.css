@@ -61,6 +61,8 @@
 
 .camera-chips .chip {
   background-color: var(--bg-1);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 .camera-hint {
@@ -74,8 +76,8 @@
   padding: 0.55rem 1rem;
   border-radius: 999px;
   background: var(--bg-1);
-  border: 1px solid #5a4a1a;
-  color: var(--amber);
+  border: 1px solid var(--amber-line);
+  color: var(--amber-fg);
   font-weight: 700;
   white-space: nowrap;
   animation: pop-in 0.3s var(--ease-spring);
@@ -158,6 +160,7 @@
   border-radius: 14px;
   background: var(--surface);
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
   transition:
     border-color 0.3s,
     background 0.3s;
@@ -178,7 +181,7 @@
 }
 
 .status-item.ok {
-  border-color: #1d5a46;
+  border-color: var(--green-line);
 }
 
 .status-item.ok .status-mark {
@@ -186,8 +189,8 @@
 }
 
 .status-item.error {
-  border-color: #55203a;
-  background: #22121f;
+  border-color: var(--red-line);
+  background: var(--red-bg);
 }
 
 .status-item.error .status-mark {
@@ -204,9 +207,9 @@
   gap: 0.35rem;
   padding: 0.7rem 0.9rem;
   border-radius: 14px;
-  background: #2b2410;
-  border: 1px solid #5a4a1a;
-  color: #ffe2a0;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-line);
+  color: var(--amber-fg);
   font-size: 0.92rem;
 }
 
@@ -306,16 +309,16 @@ input[type='text']:focus {
   gap: 0.5rem;
   padding: 0.65rem 0.9rem;
   border-radius: 14px;
-  background: #0d2b33;
-  border: 1px solid #1b5563;
+  background: var(--cyan-bg);
+  border: 1px solid var(--cyan-line);
   color: var(--cyan-2);
   font-weight: 600;
 }
 
 .calibration-status.warn {
-  background: #2b2410;
-  border-color: #5a4a1a;
-  color: var(--amber);
+  background: var(--amber-bg);
+  border-color: var(--amber-line);
+  color: var(--amber-fg);
 }
 
 /* ---- Countdown ---- */
@@ -340,7 +343,7 @@ input[type='text']:focus {
 
 .countdown-step.is-start {
   font-size: clamp(3.2rem, 9vw, 6.5rem);
-  color: var(--cyan);
+  color: #67e8f9; /* over the darkened camera image */
   animation: count-start 0.65s var(--ease-spring) both;
 }
 

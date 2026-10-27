@@ -70,12 +70,12 @@
 }
 
 .secondary-button.danger {
-  background: #3a1625;
-  color: #ffb3c1;
+  background: var(--red-bg);
+  color: var(--red-fg);
 }
 
 .secondary-button.danger:hover:not(:disabled) {
-  background: #4d1c31;
+  background: var(--red-line);
 }
 
 .ghost-button {
@@ -167,33 +167,33 @@
 }
 
 .chip-cyan {
-  color: #67e8f9;
-  background: #0e3440;
+  color: var(--cyan-fg);
+  background: var(--cyan-bg);
 }
 
 .chip-violet {
-  color: #c4b8ff;
+  color: var(--violet-2);
   background: var(--primary-soft);
 }
 
 .chip-green {
-  color: #6ee7b7;
-  background: #0f3a2e;
+  color: var(--green-fg);
+  background: var(--green-bg);
 }
 
 .chip-amber {
-  color: #fcd34d;
-  background: #3d3012;
+  color: var(--amber-fg);
+  background: var(--amber-bg);
 }
 
 .chip-red {
-  color: #ffb3c1;
-  background: #45182a;
+  color: var(--red-fg);
+  background: var(--red-bg);
 }
 
 .chip-gold {
   color: var(--gold);
-  background: #3d3212;
+  background: var(--gold-bg);
 }
 
 .chip-muted {
@@ -206,7 +206,7 @@
 }
 
 .chip-button:hover {
-  background: #5a1f36;
+  background: var(--red-line);
 }
 
 .rec-dot {
@@ -230,6 +230,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .note {
@@ -238,7 +239,7 @@
 }
 
 .error-text {
-  color: #ffb3c1;
+  color: var(--red-fg);
 }
 
 /* ---- Difficulty badges ---- */
@@ -260,18 +261,18 @@
 }
 
 .difficulty-easy {
-  color: var(--green);
-  background: rgba(52, 211, 153, 0.14);
+  color: var(--green-fg);
+  background: var(--green-bg);
 }
 
 .difficulty-normal {
-  color: var(--cyan-2);
-  background: rgba(34, 211, 238, 0.14);
+  color: var(--cyan-fg);
+  background: var(--cyan-bg);
 }
 
 .difficulty-hard {
-  color: #ff8fa3;
-  background: rgba(255, 77, 109, 0.16);
+  color: var(--red-fg);
+  background: var(--red-bg);
 }
 
 /* ---- Segmented control & toggles ---- */
@@ -432,7 +433,7 @@
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: rgba(5, 8, 16, 0.8);
+  background: var(--scrim);
   animation: fade-in 0.2s ease-out;
 }
 
@@ -513,7 +514,7 @@
   gap: 0.55rem;
   padding: 0.8rem;
   border-radius: var(--radius);
-  background: var(--sunken);
+  background: var(--surface);
   border: 1px solid var(--border);
 }
 
@@ -589,8 +590,8 @@
   align-items: flex-start;
   padding: 0.8rem 0.95rem;
   border-radius: var(--radius);
-  background: #0f2621;
-  border: 1px solid #1c4339;
+  background: var(--green-bg);
+  border: 1px solid var(--green-line);
   color: var(--text-dim);
   font-size: 0.88rem;
 }
@@ -690,7 +691,7 @@
 }
 
 .hall-of-fame li.highlight {
-  background: #3d3212;
+  background: var(--gold-bg);
 }
 
 .hall-of-fame .rank {
@@ -723,8 +724,8 @@
 .error-panel {
   padding: 1rem 1.1rem;
   border-radius: var(--radius);
-  background: #2a1220;
-  border: 1px solid #55203a;
+  background: var(--red-bg);
+  border: 1px solid var(--red-line);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -735,7 +736,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #ff8fa3;
+  color: var(--red-fg);
 }
 
 .error-panel h3 {
@@ -811,7 +812,7 @@
   width: 300px;
   padding: 0.65rem 0.8rem;
   border-radius: 14px;
-  background: #080b14;
+  background: var(--surface);
   border: 1px solid var(--border-strong);
   font-family: var(--font-mono);
   font-size: 0.74rem;

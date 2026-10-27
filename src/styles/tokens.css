@@ -2,34 +2,52 @@
    Fonts are local system fonts only (Bahnschrift / Segoe UI ship with Windows). */
 
 :root {
-  /* Flat, solid palette: no gradients, glows or translucency. */
-  --bg-0: #0b0f1c; /* page */
-  --bg-1: #10162a; /* header, overlays on video */
-  --sunken: #0d1222; /* inputs, tracks, inner panels */
-  --surface: #161d33; /* cards */
-  --surface-2: #1f2742; /* raised controls */
-  --surface-hover: #283255;
-  --border: #252e4b;
-  --border-strong: #354069;
+  /* Modern light theme: flat solid colours, no gradients or glows. */
+  --bg-0: #f4f5fa; /* page */
+  --bg-1: #ffffff; /* header, chips over video */
+  --sunken: #eef0f6; /* inputs, tracks, inner panels */
+  --surface: #ffffff; /* cards */
+  --surface-2: #eef0f8; /* raised controls */
+  --surface-hover: #e2e6f3;
+  --border: #e3e6ef;
+  --border-strong: #cdd2e3;
 
-  --primary: #7c5cff;
-  --primary-hover: #6a4bf0;
-  --primary-soft: #2a2357;
-  --violet: #7c5cff;
-  --violet-2: #a99bff;
-  --cyan: #22d3ee;
-  --cyan-2: #22d3ee;
-  --green: #34d399;
-  --amber: #fbbf24;
-  --orange: #ff8c42;
-  --red: #ff4d6d;
-  --gold: #ffd166;
+  --primary: #6d4aff;
+  --primary-hover: #5b37f2;
+  --primary-soft: #efebff;
+  --violet: #6d4aff;
+  --violet-2: #5b3fe0; /* violet text */
+  --cyan: #0891b2;
+  --cyan-2: #0e7490; /* cyan text */
+  --green: #059669;
+  --amber: #d97706;
+  --orange: #ea580c;
+  --red: #e11d48;
+  --gold: #a16207;
 
-  --text: #eef0fb;
-  --text-dim: #a2a9c9;
-  --text-faint: #6c7499;
+  /* Tinted status panels: background / text / border */
+  --cyan-bg: #e3f7fb;
+  --cyan-fg: #0e7490;
+  --cyan-line: #a5e4f1;
+  --green-bg: #e6f8f0;
+  --green-fg: #047857;
+  --green-line: #a7e3c9;
+  --amber-bg: #fff6e0;
+  --amber-fg: #b45309;
+  --amber-line: #f5d58a;
+  --orange-fg: #c2410c;
+  --red-bg: #ffecf0;
+  --red-fg: #be123c;
+  --red-line: #fbc4d0;
+  --gold-bg: #fff4d6;
 
-  --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --text: #161b2e;
+  --text-dim: #586079;
+  --text-faint: #8b92ab;
+
+  --scrim: rgba(22, 27, 48, 0.45);
+  --shadow: 0 16px 40px rgba(22, 27, 48, 0.14);
+  --shadow-sm: 0 1px 2px rgba(22, 27, 48, 0.05), 0 4px 14px rgba(22, 27, 48, 0.05);
 
   --radius-sm: 10px;
   --radius: 16px;
@@ -42,7 +60,7 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
