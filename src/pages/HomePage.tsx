@@ -1,5 +1,6 @@
 import { Camera, CameraOff, Cpu, HelpCircle, Play, Settings as SettingsIcon, ShieldCheck, Trophy, Volume2, VolumeX } from 'lucide-react';
 import { LeaderboardPreview } from '../components/LeaderboardPreview';
+import { USER_MEDIA } from '../content/userMedia';
 import { Logo } from '../components/Logo';
 import { PRIVACY_STATEMENT } from '../components/PrivacyNote';
 import { Segmented, Toggle } from '../components/Segmented';
@@ -7,6 +8,8 @@ import { DIFFICULTIES, DIFFICULTY_ORDER, ROUND_DURATIONS } from '../game/gameCon
 import { useCamera } from '../hooks/useCamera';
 import type { LeaderboardEntry, PlayerStats } from '../storage/leaderboard';
 import type { Settings } from '../storage/settings';
+
+const plural = (count: number, word: string) => `${count} ${word}${count === 1 ? '' : 's'}`;
 
 interface HomePageProps {
   settings: Settings;
@@ -84,6 +87,12 @@ export function HomePage(props: HomePageProps) {
               onChange={(durationSec) => onChangeSettings({ durationSec })}
             />
             <Toggle label="Sound effects" checked={settings.soundEnabled} onChange={(soundEnabled) => onChangeSettings({ soundEnabled })} />
+            {(USER_MEDIA.challenges.length > 0 || USER_MEDIA.counts.sounds > 0) && (
+              <button type="button" className="media-hint" onClick={onOpenSettings}>
+                Your media: {plural(USER_MEDIA.counts.videos, 'video')} · {plural(USER_MEDIA.counts.memes, 'meme')} ·{' '}
+                {plural(USER_MEDIA.counts.sounds, 'sound')}
+              </button>
+            )}
           </section>
 
           <section className="card stats-card">

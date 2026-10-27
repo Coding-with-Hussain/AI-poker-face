@@ -1,5 +1,5 @@
-import { DIFFICULTIES } from '../game/gameConfig';
-import type { Difficulty } from '../game/gameTypes';
+import { DIFFICULTIES, GAMEPLAY_TIMING } from '../game/gameConfig';
+import type { ContentMix, Difficulty } from '../game/gameTypes';
 import { CHALLENGES, type Challenge } from './challenges';
 
 export type RandomSource = () => number;
@@ -54,4 +54,26 @@ export class ChallengeDeck {
     const stale = shuffled.filter((c) => recent.has(c.id));
     this.queue = [...fresh, ...stale];
   }
+}
+
+export interface ChallengeSource {
+  next(): Challenge;
+}
+
+/**
+ * Picks where a round's challenges come from. Your own media (videos, memes)
+ * are used for every difficulty; "mixed" draws from them about half the time
+ * so a handful of files are not drowned out by the built-in library.
+ */
+export function createChallengeSource(
+  difficulty: Difficulty,
+  mix: ContentMix,
+  userChallenges: readonly Challenge[],
+  random: RandomSource = Math.random,
+): ChallengeSource {
+  const builtIn = new ChallengeDeck(challengesForDifficulty(difficulty), random);
+  if (userChallenges.length === 0 || mix === 'builtin') return builtIn;
+  const mine = new ChallengeDeck(userChallenges, random);
+  if (mix === 'mine') return mine;
+  return { next: () => (random() < GAMEPLAY_TIMING.userMediaShare ? mine.next() : builtIn.next()) };
 }

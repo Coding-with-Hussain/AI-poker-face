@@ -38,8 +38,27 @@ describe('settings', () => {
   });
 
   it('keeps valid values and always starts with diagnostics hidden', () => {
-    const settings = sanitizeSettings({ difficulty: 'hard', durationSec: 60, sensitivity: 3, soundEnabled: false, showOverlay: false, showDiagnostics: true });
-    expect(settings).toEqual({ difficulty: 'hard', durationSec: 60, sensitivity: 3, soundEnabled: false, showOverlay: false, showDiagnostics: false });
+    const settings = sanitizeSettings({
+      difficulty: 'hard',
+      durationSec: 60,
+      sensitivity: 3,
+      soundEnabled: false,
+      showOverlay: false,
+      showDiagnostics: true,
+      contentMix: 'mine',
+      useCustomSounds: false,
+    });
+    expect(settings).toEqual({
+      difficulty: 'hard',
+      durationSec: 60,
+      sensitivity: 3,
+      soundEnabled: false,
+      showOverlay: false,
+      showDiagnostics: false,
+      contentMix: 'mine',
+      useCustomSounds: false,
+    });
+    expect(sanitizeSettings({ contentMix: 'everything' }).contentMix).toBe('mixed');
   });
 });
 

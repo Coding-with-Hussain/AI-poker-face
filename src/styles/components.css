@@ -523,6 +523,70 @@
   padding-top: 0.7rem;
 }
 
+/* ---- Your media (settings) ---- */
+
+.your-media {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border);
+  padding-top: 1.1rem;
+}
+
+.media-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+  font-weight: 600;
+}
+
+.media-counts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.media-counts svg {
+  color: var(--violet-2);
+}
+
+.media-files summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--violet-2);
+}
+
+.media-files ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  max-height: 160px;
+  overflow: auto;
+}
+
+.media-files li svg {
+  vertical-align: -2px;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.05em 0.35em;
+  border-radius: 6px;
+  background: var(--surface-2);
+}
+
+.media-hint {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--violet-2);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* ---- How to play ---- */
 
 .how-to-steps {

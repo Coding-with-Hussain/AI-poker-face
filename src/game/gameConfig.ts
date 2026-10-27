@@ -126,6 +126,10 @@ export const GAMEPLAY_TIMING = {
   faceReturnResumeMs: 700,
   /** Delay before a two-part challenge reveals its punchline. */
   punchlineRevealMs: 2200,
+  /** A video challenge stays until the clip ends, but never longer than this. */
+  maxVideoMs: 20000,
+  /** Share of challenges drawn from your own media in the "mixed" content mode. */
+  userMediaShare: 0.5,
 } as const;
 
 export const CALIBRATION = {

@@ -4,6 +4,9 @@ export type RoundDurationSec = 30 | 45 | 60;
 
 export type ChallengeIntensity = 1 | 2 | 3;
 
+/** Which challenges a round draws from when the player has added their own media. */
+export type ContentMix = 'mixed' | 'mine' | 'builtin';
+
 /** Thresholds that turn a smoothed facial-cue score into laugh-like events. */
 export interface DetectionTuning {
   /** Smoothed score at or above which an expression counts as qualifying. */

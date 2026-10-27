@@ -14,7 +14,9 @@ export type ChallengeCategory =
   | 'hypothetical'
   | 'campus-life'
   | 'emoji'
-  | 'visual-gag';
+  | 'visual-gag'
+  | 'video'
+  | 'meme';
 
 export type ChallengeStyle = 'pop' | 'slide' | 'wobble' | 'zoom' | 'drop';
 
@@ -41,6 +43,16 @@ export interface Challenge {
   emoji?: string;
   visual?: VisualGagId;
   style?: ChallengeStyle;
+  /** Your own media from the media/ folder (see content/userMedia.ts). */
+  media?: ChallengeMedia;
+}
+
+export interface ChallengeMedia {
+  kind: 'video' | 'image';
+  /** Local URL served by Vite. */
+  src: string;
+  /** Optional sound played when an image meme appears. */
+  sound?: string;
 }
 
 export const CATEGORY_LABELS: Record<ChallengeCategory, string> = {
@@ -51,6 +63,8 @@ export const CATEGORY_LABELS: Record<ChallengeCategory, string> = {
   'campus-life': 'Campus life',
   emoji: 'Emoji challenge',
   'visual-gag': 'Visual gag',
+  video: 'Video',
+  meme: 'Meme',
 };
 
 export const CHALLENGES: readonly Challenge[] = [

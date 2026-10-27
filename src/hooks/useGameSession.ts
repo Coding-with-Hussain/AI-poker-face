@@ -7,8 +7,9 @@
  * times per second for the timer), never once per video frame.
  */
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { ChallengeDeck, challengesForDifficulty } from '../content/challengeDeck';
+import { createChallengeSource } from '../content/challengeDeck';
 import type { Challenge } from '../content/challenges';
+import { USER_MEDIA } from '../content/userMedia';
 import { GAMEPLAY_TIMING, DIFFICULTIES } from '../game/gameConfig';
 import {
   buildResult,
@@ -20,7 +21,7 @@ import {
   resumeRound,
   tick,
 } from '../game/gameEngine';
-import type { DetectionTuning, PauseReason, RoundConfig, RoundPhase, RoundResult, RoundState } from '../game/gameTypes';
+import type { ContentMix, DetectionTuning, PauseReason, RoundConfig, RoundPhase, RoundResult, RoundState } from '../game/gameTypes';
 import type { CueBaseline } from '../vision/blendshapeAnalyzer';
 import { createEstimatorConfig } from '../vision/laughEstimator';
 import { LaughMonitor } from '../vision/laughMonitor';
@@ -42,15 +43,25 @@ export interface GameSessionOptions {
   config: RoundConfig;
   tuning: DetectionTuning;
   baseline: CueBaseline;
+  contentMix: ContentMix;
   onStrike?: (strikes: number, ended: boolean) => void;
   onWarning?: () => void;
-  onChallenge?: () => void;
+  onChallenge?: (challenge: Challenge, number: number) => void;
   onFinished: (result: RoundResult) => void;
 }
 
 /** Longest clock step accepted from one animation frame (e.g. after a stall). */
 const MAX_TICK_MS = 100;
 const WARNING_SOUND_GAP_MS = 1500;
+
+interface ActiveChallenge {
+  number: number;
+  challenge: Challenge;
+  /** Round time (active play) at which this challenge appeared. */
+  startedAt: number;
+  /** How long it stays; videos extend this once their length is known. */
+  durationMs: number;
+}
 
 function viewOf(round: RoundState, challenge: Challenge, challengeNumber: number, punchlineRevealed: boolean): GameView {
   return {
@@ -87,23 +98,42 @@ export function useGameSession(options: GameSessionOptions) {
 
   // Everything below is created once per mounted round.
   const [monitor] = useState(() => new LaughMonitor(createEstimatorConfig(options.tuning), options.baseline));
-  const [deck] = useState(() => new ChallengeDeck(challengesForDifficulty(options.config.difficulty)));
+  // Created together so React's double-invoked initializers (StrictMode) cannot skip a card.
+  const [{ deck, firstChallenge }] = useState(() => {
+    const source = createChallengeSource(options.config.difficulty, options.contentMix, USER_MEDIA.challenges);
+    return { deck: source, firstChallenge: source.next() };
+  });
+  const interval = DIFFICULTIES[options.config.difficulty].challengeIntervalMs;
   const roundRef = useRef<RoundState>(createRound(options.config));
-  const challengeRef = useRef<{ slot: number; challenge: Challenge }>({ slot: 0, challenge: deck.next() });
+  const challengeRef = useRef<ActiveChallenge>({ number: 1, challenge: firstChallenge, startedAt: 0, durationMs: interval });
   const [view, setView] = useState<GameView>(() => viewOf(roundRef.current, challengeRef.current.challenge, 1, false));
   const viewRef = useRef(view);
   const faceRef = useRef<{ lastSeen: number; backSince: number | null }>({ lastSeen: performance.now(), backSince: null });
 
   const publish = useCallback(() => {
     const round = roundRef.current;
-    const interval = DIFFICULTIES[round.config.difficulty].challengeIntervalMs;
-    const { slot, challenge } = challengeRef.current;
-    const slotElapsed = round.elapsedMs - slot * interval;
-    const next = viewOf(round, challenge, slot + 1, slotElapsed >= GAMEPLAY_TIMING.punchlineRevealMs);
+    const { number, challenge, startedAt } = challengeRef.current;
+    const next = viewOf(round, challenge, number, round.elapsedMs - startedAt >= GAMEPLAY_TIMING.punchlineRevealMs);
     if (!sameView(viewRef.current, next)) {
       viewRef.current = next;
       setView(next);
     }
+  }, []);
+
+  /** Shows the next challenge from the current round time. */
+  const advanceChallenge = useCallback(() => {
+    const current = challengeRef.current;
+    const challenge = deck.next();
+    challengeRef.current = { number: current.number + 1, challenge, startedAt: roundRef.current.elapsedMs, durationMs: interval };
+    optionsRef.current.onChallenge?.(challenge, current.number + 1);
+  }, [deck, interval]);
+
+  const announcedFirst = useRef(false);
+  useEffect(() => {
+    // The first challenge is already on screen when the round starts.
+    if (announcedFirst.current) return;
+    announcedFirst.current = true;
+    optionsRef.current.onChallenge?.(challengeRef.current.challenge, 1);
   }, []);
 
   useEffect(() => {
@@ -156,13 +186,9 @@ export function useGameSession(options: GameSessionOptions) {
       round = tick(round, dt);
       roundRef.current = round;
 
-      if (round.phase === 'playing') {
-        const interval = DIFFICULTIES[round.config.difficulty].challengeIntervalMs;
-        const slot = Math.floor(round.elapsedMs / interval);
-        if (slot !== challengeRef.current.slot) {
-          challengeRef.current = { slot, challenge: deck.next() };
-          optionsRef.current.onChallenge?.();
-        }
+      const active = challengeRef.current;
+      if (round.phase === 'playing' && round.elapsedMs - active.startedAt >= active.durationMs) {
+        advanceChallenge();
       }
       publish();
 
@@ -191,7 +217,7 @@ export function useGameSession(options: GameSessionOptions) {
       unsubscribe();
       monitor.stop();
     };
-  }, [deck, monitor, publish]);
+  }, [advanceChallenge, monitor, publish]);
 
   const pause = useCallback(
     (reason: PauseReason = 'player') => {
@@ -213,5 +239,25 @@ export function useGameSession(options: GameSessionOptions) {
     publish();
   }, [monitor, publish]);
 
-  return { view, monitor, pause, resume };
+  /** A video reports its length: keep it on screen until it ends (within limits). */
+  const setMediaDuration = useCallback(
+    (challengeId: string, mediaMs: number) => {
+      const active = challengeRef.current;
+      if (active.challenge.id !== challengeId || !Number.isFinite(mediaMs)) return;
+      active.durationMs = Math.min(GAMEPLAY_TIMING.maxVideoMs, Math.max(interval, mediaMs + 400));
+    },
+    [interval],
+  );
+
+  /** Skips a challenge whose media failed to load. */
+  const skipChallenge = useCallback(
+    (challengeId: string) => {
+      if (challengeRef.current.challenge.id !== challengeId) return;
+      advanceChallenge();
+      publish();
+    },
+    [advanceChallenge, publish],
+  );
+
+  return { view, monitor, pause, resume, setMediaDuration, skipChallenge };
 }

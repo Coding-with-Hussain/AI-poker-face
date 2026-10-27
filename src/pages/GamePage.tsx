@@ -6,7 +6,8 @@ import { CameraPreview } from '../components/CameraPreview';
 import { ChallengeCard } from '../components/ChallengeCard';
 import { ErrorPanel } from '../components/ErrorPanel';
 import { GameHUD } from '../components/GameHUD';
-import type { DetectionTuning, RoundConfig, RoundResult } from '../game/gameTypes';
+import type { Challenge } from '../content/challenges';
+import type { ContentMix, DetectionTuning, RoundConfig, RoundResult } from '../game/gameTypes';
 import { useVisionStatus } from '../hooks/useCamera';
 import { useFaceTracking } from '../hooks/useFaceTracking';
 import { useGameSession } from '../hooks/useGameSession';
@@ -18,6 +19,7 @@ interface GamePageProps {
   config: RoundConfig;
   tuning: DetectionTuning;
   baseline: CueBaseline;
+  contentMix: ContentMix;
   showOverlay: boolean;
   soundEnabled: boolean;
   modalOpen: boolean;
@@ -26,6 +28,13 @@ interface GamePageProps {
   onFinished: (result: RoundResult) => void;
   onRestart: () => void;
   onQuit: () => void;
+}
+
+/** Your meme's own sound, nothing for videos (they have audio), a swoosh otherwise. */
+function announceChallenge(challenge: Challenge, number: number): void {
+  const media = challenge.media;
+  if (media?.kind === 'image' && media.sound) sound.playFile(media.sound, 'meme');
+  else if (!media && number > 1) sound.play('challenge');
 }
 
 const TIPS: Record<CueState, string> = {
@@ -40,7 +49,7 @@ const TIPS: Record<CueState, string> = {
 const END_SCREEN_DELAY_MS = 1400;
 
 export function GamePage(props: GamePageProps) {
-  const { config, tuning, baseline, showOverlay, soundEnabled, modalOpen } = props;
+  const { config, tuning, baseline, contentMix, showOverlay, soundEnabled, modalOpen } = props;
   useFaceTracking(true);
   const status = useVisionStatus();
   const [strikeFx, setStrikeFx] = useState<{ key: number; final: boolean } | null>(null);
@@ -51,16 +60,17 @@ export function GamePage(props: GamePageProps) {
     propsRef.current = props;
   });
 
-  const { view, monitor, pause, resume } = useGameSession({
+  const { view, monitor, pause, resume, setMediaDuration, skipChallenge } = useGameSession({
     config,
     tuning,
     baseline,
+    contentMix,
     onStrike: (_strikes, ended) => {
       sound.play('strike');
       setStrikeFx({ key: performance.now(), final: ended });
     },
     onWarning: () => sound.play('warning'),
-    onChallenge: () => sound.play('challenge'),
+    onChallenge: announceChallenge,
     onFinished: (result) => setEnding(result),
   });
 
@@ -132,7 +142,15 @@ export function GamePage(props: GamePageProps) {
 
       <div className="game-main">
         <section className="challenge-area">
-          <ChallengeCard challenge={view.challenge} number={view.challengeNumber} punchlineRevealed={view.punchlineRevealed} />
+          <ChallengeCard
+            challenge={view.challenge}
+            number={view.challengeNumber}
+            punchlineRevealed={view.punchlineRevealed}
+            paused={paused || ending !== null}
+            soundEnabled={soundEnabled}
+            onMediaDuration={setMediaDuration}
+            onMediaError={skipChallenge}
+          />
         </section>
 
         <aside className="player-area">

@@ -1,5 +1,5 @@
 import { clampSensitivity, DEFAULT_DIFFICULTY, DEFAULT_DURATION, DIFFICULTY_ORDER, ROUND_DURATIONS, SENSITIVITY } from '../game/gameConfig';
-import type { Difficulty, RoundDurationSec } from '../game/gameTypes';
+import type { ContentMix, Difficulty, RoundDurationSec } from '../game/gameTypes';
 import { isRecord, readJSON, writeJSON } from './safeStorage';
 
 export interface Settings {
@@ -10,7 +10,13 @@ export interface Settings {
   sensitivity: number;
   showOverlay: boolean;
   showDiagnostics: boolean;
+  /** Built-in jokes, your own media, or both. */
+  contentMix: ContentMix;
+  /** Play your sound effects from media/sounds instead of the built-in ones. */
+  useCustomSounds: boolean;
 }
+
+const CONTENT_MIXES: readonly ContentMix[] = ['mixed', 'mine', 'builtin'];
 
 export const SETTINGS_KEY = 'ai-poker-face:settings:v1';
 
@@ -21,6 +27,8 @@ export const DEFAULT_SETTINGS: Settings = {
   sensitivity: SENSITIVITY.default,
   showOverlay: true,
   showDiagnostics: false,
+  contentMix: 'mixed',
+  useCustomSounds: true,
 };
 
 /** Accepts anything (e.g. hand-edited storage) and returns valid settings. */
@@ -40,6 +48,8 @@ export function sanitizeSettings(value: unknown): Settings {
     showOverlay: typeof value.showOverlay === 'boolean' ? value.showOverlay : DEFAULT_SETTINGS.showOverlay,
     // Diagnostics always start hidden so every player gets the clean view.
     showDiagnostics: false,
+    contentMix: CONTENT_MIXES.includes(value.contentMix as ContentMix) ? (value.contentMix as ContentMix) : DEFAULT_SETTINGS.contentMix,
+    useCustomSounds: typeof value.useCustomSounds === 'boolean' ? value.useCustomSounds : DEFAULT_SETTINGS.useCustomSounds,
   };
 }
 

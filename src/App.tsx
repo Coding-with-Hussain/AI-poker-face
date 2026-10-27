@@ -6,7 +6,7 @@ import { HowToPlay } from './components/HowToPlay';
 import { LeaderboardPanel } from './components/LeaderboardPanel';
 import { SettingsPanel } from './components/SettingsPanel';
 import { DIFFICULTIES, resolveDetectionTuning, SCORING } from './game/gameConfig';
-import type { RoundConfig, RoundResult } from './game/gameTypes';
+import type { ContentMix, RoundConfig, RoundResult } from './game/gameTypes';
 import { CalibrationPage } from './pages/CalibrationPage';
 import { CameraSetupPage } from './pages/CameraSetupPage';
 import { GamePage } from './pages/GamePage';
@@ -37,6 +37,7 @@ interface RoundSetup {
   key: number;
   config: RoundConfig;
   sensitivity: number;
+  contentMix: ContentMix;
   calibration: CalibrationResult;
 }
 
@@ -55,6 +56,10 @@ export default function App() {
   useEffect(() => {
     sound.setEnabled(settings.soundEnabled);
   }, [settings.soundEnabled]);
+
+  useEffect(() => {
+    sound.setUseCustomSounds(settings.useCustomSounds);
+  }, [settings.useCustomSounds]);
 
   const updateSettings = useCallback((patch: Partial<Settings>) => {
     setSettings((prev) => {
@@ -103,6 +108,7 @@ export default function App() {
       key: Date.now(),
       config: { difficulty: settings.difficulty, durationSec: settings.durationSec, scoring: SCORING },
       sensitivity: settings.sensitivity,
+      contentMix: settings.contentMix,
       calibration,
     });
     go('game');
@@ -202,6 +208,7 @@ export default function App() {
             config={round.config}
             tuning={tuning}
             baseline={round.calibration.baseline}
+            contentMix={round.contentMix}
             showOverlay={settings.showOverlay}
             soundEnabled={settings.soundEnabled}
             modalOpen={modal !== null}

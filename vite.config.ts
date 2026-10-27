@@ -14,7 +14,7 @@ function contentSecurityPolicy(dev: boolean): string {
     `script-src 'self' 'wasm-unsafe-eval'${dev ? " 'unsafe-inline'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
-    "media-src 'self' blob: mediastream:",
+    "media-src 'self' data: blob: mediastream:",
     `connect-src 'self'${dev ? ' ws://localhost:* ws://127.0.0.1:*' : ''}`,
     "font-src 'self'",
     "worker-src 'self' blob:",

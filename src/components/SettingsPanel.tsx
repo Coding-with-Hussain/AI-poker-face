@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Camera, CameraOff, RefreshCw, Trash2 } from 'lucide-react';
+import { Camera, CameraOff, Film, Image, Music, RefreshCw, Trash2 } from 'lucide-react';
+import { USER_MEDIA } from '../content/userMedia';
 import { DIFFICULTIES, DIFFICULTY_ORDER, ROUND_DURATIONS, SENSITIVITY } from '../game/gameConfig';
 import { useCamera } from '../hooks/useCamera';
 import { isStorageAvailable } from '../storage/safeStorage';
@@ -123,7 +124,89 @@ export function SettingsPanel({ settings, onChange, onClose, onClearScores, roun
             )}
           </div>
         </section>
+
+        <YourMediaSection settings={settings} onChange={onChange} />
       </div>
     </Modal>
+  );
+}
+
+const SOUND_EVENT_LABELS: Record<string, string> = {
+  strike: 'laugh detected',
+  warning: 'high risk',
+  win: 'round survived',
+  lose: 'round lost',
+  countdown: '3-2-1',
+  go: 'START!',
+  challenge: 'new challenge',
+  click: 'button click',
+  save: 'score saved',
+};
+
+/** Shows what was found in the media/ folder and how it is used. */
+function YourMediaSection({ settings, onChange }: { settings: Settings; onChange: (patch: Partial<Settings>) => void }) {
+  const { counts, challenges, sounds, skipped } = USER_MEDIA;
+  const hasChallenges = challenges.length > 0;
+  const soundEvents = Object.entries(sounds).filter(([, files]) => files && files.length > 0);
+  return (
+    <section className="your-media">
+      <h3>Your media</h3>
+      <div className="media-counts">
+        <span>
+          <Film size={16} /> {counts.videos} video{counts.videos === 1 ? '' : 's'}
+        </span>
+        <span>
+          <Image size={16} /> {counts.memes} meme{counts.memes === 1 ? '' : 's'}
+        </span>
+        <span>
+          <Music size={16} /> {counts.sounds} sound effect{counts.sounds === 1 ? '' : 's'}
+        </span>
+      </div>
+      <Segmented
+        label="Challenges"
+        value={settings.contentMix}
+        disabled={!hasChallenges}
+        options={[
+          { value: 'mixed', label: 'Mixed' },
+          { value: 'mine', label: 'Only my media' },
+          { value: 'builtin', label: 'Built-in only' },
+        ]}
+        onChange={(contentMix) => onChange({ contentMix })}
+      />
+      <Toggle
+        label="Use my sound effects"
+        description={
+          soundEvents.length > 0
+            ? `Replacing: ${soundEvents.map(([event]) => SOUND_EVENT_LABELS[event] ?? event).join(', ')}.`
+            : 'No sound effects found yet.'
+        }
+        checked={settings.useCustomSounds}
+        onChange={(useCustomSounds) => onChange({ useCustomSounds })}
+      />
+      <p className="note">
+        Add your files to the <code>media</code> folder of the project: <code>media/videos</code> (MP4/WebM),{' '}
+        <code>media/memes</code> (PNG, JPG, GIF, WebP) and <code>media/sounds/strike</code>, <code>win</code>,{' '}
+        <code>lose</code>… (MP3/WAV). The file name becomes the caption. Restart the game if it is not already running
+        with <code>npm run dev</code>; see <code>media/README.md</code>.
+      </p>
+      {(challenges.length > 0 || skipped.length > 0) && (
+        <details className="media-files">
+          <summary>Show files</summary>
+          <ul>
+            {challenges.map((c) => (
+              <li key={c.id}>
+                {c.category === 'video' ? <Film size={14} /> : <Image size={14} />} {c.id.replace(/^user:/, '')} — “{c.text}”
+                {c.media?.sound ? ' (with sound)' : ''}
+              </li>
+            ))}
+            {skipped.map((reason) => (
+              <li key={reason} className="error-text">
+                Skipped: {reason}
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+    </section>
   );
 }
